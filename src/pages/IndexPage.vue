@@ -23,7 +23,7 @@
     </div>
 
     <span class="absolute" style="bottom: 5px; color: white">
-      2024 - by Cáliton
+      2024 - by IBVN
     </span>
   </q-page>
 </template>
