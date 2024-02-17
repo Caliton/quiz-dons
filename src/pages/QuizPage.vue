@@ -422,6 +422,7 @@ export default {
           .filter(question => question.gifts === gift.id)
           .map(el => el.answer)
 
+        // TODO: Refactor this
         gift.points = points.reduce((acc, curr) => acc + curr, 0)
       })
     }
