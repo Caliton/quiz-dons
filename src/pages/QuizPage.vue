@@ -41,16 +41,6 @@
       </div>
     </div>
 
-    <div>
-      <div
-        class="inline-block q-ma-xs"
-        :key="item.label"
-        v-for="item in monitoring"
-      >
-        {{ item.label }}: {{ item.value }}
-      </div>
-    </div>
-
     <div
       class="full-width flex justify-between absolute q-px-lg"
       style="bottom: 20px"
@@ -66,9 +56,8 @@
       <q-btn
         class="btn-next"
         rounded
-        :disable="currentQuestion === 35"
         @click="nextQuestion"
-        label="Avancar"
+        :label="!isLastedQuestion ? 'Avançar' : 'Finalizar'"
         no-caps
       />
     </div>
@@ -422,7 +411,6 @@ export default {
           .filter(question => question.gifts === gift.id)
           .map(el => el.answer)
 
-        // TODO: Refactor this
         gift.points = points.reduce((acc, curr) => acc + curr, 0)
       })
     }
@@ -442,6 +430,10 @@ export default {
 
     haveResponse () {
       return this.alternative.some(el => el.isSelected)
+    },
+
+    isLastedQuestion () {
+      return this.currentQuestion === 35
     }
   },
 
@@ -462,13 +454,26 @@ export default {
     },
 
     nextQuestion () {
-      this.resetExpanded()
+      if (!this.haveResponse) {
+        return
+      }
 
-      if (this.currentQuestion >= 35 || !this.haveResponse) {
+      if (this.currentQuestion >= 35) {
+        this.gifts.forEach(gift => {
+          const points = this.questions
+            .filter(question => question.gifts === gift.id)
+            .map(el => el.answer)
+
+          gift.points = points.reduce((acc, curr) => acc + curr, 0)
+        })
+
+        localStorage.setItem('monitoring', JSON.stringify(this.monitoring))
+        this.$router.push({ path: 'result' })
         return
       }
 
       this.currentQuestion++
+      this.resetExpanded()
     },
 
     backQuestion () {

@@ -5,7 +5,7 @@
         :loop="false"
         :speed="0.8"
         :animationData="HolySpirit"
-        height="50vh"
+        height="40vh"
       />
       <span class="title">Quiz Dons</span>
     </div>
@@ -18,7 +18,17 @@
         label="Iniciar"
         rounded
         @click="$router.push('/quiz')"
-        size="35px"
+        size="20px"
+      />
+
+      <q-btn
+        v-if="isResult"
+        dense
+        no-caps
+        class="btn-details q-px-xl q-py-xs"
+        label="ver resultado anterior"
+        rounded
+        @click="$router.push('/result')"
       />
     </div>
 
@@ -35,9 +45,12 @@ import HolySpirit from 'src/assets/holy-spirit.json'
 export default defineComponent({
   name: 'IndexPage',
 
+  mounted () {},
+
   data () {
     return {
-      HolySpirit
+      HolySpirit,
+      isResult: !!localStorage.getItem('monitoring')
     }
   }
 })
@@ -48,7 +61,7 @@ export default defineComponent({
 
 .title {
   font-style: normal;
-  font-size: 4rem;
+  font-size: 3rem;
   color: #66987c;
 }
 
@@ -57,5 +70,10 @@ export default defineComponent({
   width: 80%;
   background-color: #66987c;
   color: #fee9d0;
+}
+
+.btn-details {
+  background-color: #fed285;
+  color: #7a8f94;
 }
 </style>
